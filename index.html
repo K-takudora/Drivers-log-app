@@ -319,6 +319,10 @@
             inputs.forEach((input, index) => {
                 input.addEventListener("focus", function() {
                     this.select();
+                    // キーボードが開いたときに隠れないよう自動スクロール
+                    setTimeout(() => {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
                 });
 
                 input.addEventListener("keydown", function(event) {
@@ -342,44 +346,70 @@
 
         function toggleEisho() {
             let show = document.querySelector('input[name="q_eisho"]:checked').value === "1";
-            document.getElementById('wrap_eisho').style.display = show ? 'flex' : 'none';
-            if(!show) document.getElementById('val_eisho').value = '';
+            let wrap = document.getElementById('wrap_eisho');
+            wrap.style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_eisho').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_eisho').focus(), 100);
+            }
             calculate();
         }
         function toggleCancel() {
             let show = document.querySelector('input[name="q_cancel"]:checked').value === "1";
-            document.getElementById('wrap_cancel').style.display = show ? 'flex' : 'none';
-            if(!show) document.getElementById('val_cancel').value = '';
+            let wrap = document.getElementById('wrap_cancel');
+            wrap.style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_cancel').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_cancel').focus(), 100);
+            }
             calculate();
         }
         function toggleTicket() {
             let show = document.querySelector('input[name="q_ticket"]:checked').value === "1";
-            document.getElementById('sub_ticket').style.display = show ? 'flex' : 'none';
+            let wrap = document.getElementById('sub_ticket');
+            wrap.style.display = show ? 'flex' : 'none';
             if(!show) {
                 document.getElementById('val_gen_ticket').value = '';
                 document.getElementById('val_cret_ticket').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_gen_ticket').focus(), 100);
             }
             calculate();
         }
         function toggleShinsho() {
             let show = document.querySelector('input[name="q_shinsho"]:checked').value === "1";
-            document.getElementById('wrap_shinsho').style.display = show ? 'flex' : 'none';
-            if(!show) document.getElementById('val_shinsho').value = '';
+            let wrap = document.getElementById('wrap_shinsho');
+            wrap.style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_shinsho').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_shinsho').focus(), 100);
+            }
             calculate();
         }
         function toggleHscK() {
             let show = document.querySelector('input[name="q_hsc_k"]:checked').value === "1";
-            document.getElementById('sub_hsc_k').style.display = show ? 'flex' : 'none';
+            let wrap = document.getElementById('sub_hsc_k');
+            wrap.style.display = show ? 'flex' : 'none';
             if(!show) {
                 document.getElementById('val_hsc_k_kaisha').value = '';
                 document.getElementById('val_hsc_k_dr').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_hsc_k_kaisha').focus(), 100);
             }
             calculate();
         }
         function toggleHscJ() {
             let show = document.querySelector('input[name="q_hsc_j"]:checked').value === "1";
-            document.getElementById('wrap_hsc_j').style.display = show ? 'flex' : 'none';
-            if(!show) document.getElementById('val_hsc_j_amt').value = '';
+            let wrap = document.getElementById('wrap_hsc_j');
+            wrap.style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_hsc_j_amt').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_hsc_j_amt').focus(), 100);
+            }
             calculate();
         }
 
@@ -409,21 +439,17 @@
 
             let shinsho = document.querySelector('input[name="q_shinsho"]:checked').value === "1" ? (Number(document.getElementById('val_shinsho').value) || 0) : 0;
 
-            // Q5 空車（ドライバー負担分）
             let hscKDr = 0;
             if(document.querySelector('input[name="q_hsc_k"]:checked').value === "1") {
                 hscKDr = Number(document.getElementById('val_hsc_k_dr').value) || 0;
             }
 
-            // Q6 実車
             let hscJAmt = 0;
             if(document.querySelector('input[name="q_hsc_j"]:checked').value === "1") {
                 hscJAmt = Number(document.getElementById('val_hsc_j_amt').value) || 0;
             }
 
-            // 高速入金分 = ドライバー負担 + 実車
             let hscTotal = hscKDr + hscJAmt;
-
             let goTotal = l_tsuko;
 
             document.getElementById('r_eisho').innerText = formatNumber(eisho);
@@ -441,7 +467,6 @@
             let sashihiki = plusSum - minusSum;
 
             document.getElementById('r_sashihiki').innerText = formatNumber(sashihiki);
-
             document.getElementById('r_hsc').innerText = formatNumber(hscTotal);
             document.getElementById('r_go').innerText = formatNumber(goTotal);
 
