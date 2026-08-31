@@ -166,6 +166,11 @@
             gap: 5px;
             margin-top: 5px;
         }
+        .question-input-wrapper label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #444;
+        }
         .question-input-wrapper input {
             width: 100px;
             padding: 6px;
@@ -280,6 +285,7 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_hsc_j" value="1" onchange="toggleHscJ()"> はい</label>
                 </div>
                 <div id="wrap_hsc_j" class="question-input-wrapper" style="display:none;">
+                    <label>ETC料金:</label>
                     <input type="tel" class="calc-input" id="val_hsc_j_amt" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
