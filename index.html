@@ -191,17 +191,16 @@
     <div class="container">
         <div class="panel">
             <h2>1. レシート項目（手入力）</h2>
-            <div class="form-group"><label>通行料他合計:</label><div class="input-wrapper"><input type="number" id="l_tsuko" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <!-- チケット合計は削除しました -->
-            <div class="form-group"><label>クレジット合計:</label><div class="input-wrapper"><input type="number" id="l_credit" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>デビット合計:</label><div class="input-wrapper"><input type="number" id="l_debit" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>メンバーズ合計:</label><div class="input-wrapper"><input type="number" id="l_members" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>iD合計:</label><div class="input-wrapper"><input type="number" id="l_id" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>QUICPay合計:</label><div class="input-wrapper"><input type="number" id="l_quicpay" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>銀聯合計:</label><div class="input-wrapper"><input type="number" id="l_ginren" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>交通系IC合計:</label><div class="input-wrapper"><input type="number" id="l_ic" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>QR/ネット決済合計:</label><div class="input-wrapper"><input type="number" id="l_qr" value="" oninput="calculate()"><span class="unit">円</span></div></div>
-            <div class="form-group"><label>総営収:</label><div class="input-wrapper"><input type="number" id="l_sosho" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>通行料他合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_tsuko" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>クレジット合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_credit" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>デビット合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_debit" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>メンバーズ合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_members" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>iD合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_id" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>QUICPay合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_quicpay" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>銀聯合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_ginren" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>交通系IC合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_ic" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>QR/ネット決済合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_qr" value="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>総営収:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_sosho" value="" oninput="calculate()"><span class="unit">円</span></div></div>
 
             <h2 style="margin-top: 25px;">2. 追加の質問回答</h2>
             
@@ -212,7 +211,7 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_eisho" value="1" onchange="toggleEisho()"> はい</label>
                 </div>
                 <div id="wrap_eisho" class="question-input-wrapper" style="display:none;">
-                    <input type="number" id="val_eisho" value="" oninput="calculate()"><span class="unit">円</span>
+                    <input type="tel" class="calc-input" id="val_eisho" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
 
@@ -223,7 +222,7 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_cancel" value="1" onchange="toggleCancel()"> はい</label>
                 </div>
                 <div id="wrap_cancel" class="question-input-wrapper" style="display:none;">
-                    <input type="number" id="val_cancel" value="" oninput="calculate()"><span class="unit">円</span>
+                    <input type="tel" class="calc-input" id="val_cancel" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
 
@@ -236,11 +235,11 @@
                 <div id="sub_ticket" style="display:none;" class="sub-inputs">
                     <div class="sub-input-item">
                         <label>一般チケット・クーポン:</label>
-                        <div class="sub-input-wrapper"><input type="number" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
                     </div>
                     <div class="sub-input-item">
                         <label>クレジットチケット:</label>
-                        <div class="sub-input-wrapper"><input type="number" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
                     </div>
                 </div>
             </div>
@@ -252,7 +251,7 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_shinsho" value="1" onchange="toggleShinsho()"> はい</label>
                 </div>
                 <div id="wrap_shinsho" class="question-input-wrapper" style="display:none;">
-                    <input type="number" id="val_shinsho" value="" oninput="calculate()"><span class="unit">円</span>
+                    <input type="tel" class="calc-input" id="val_shinsho" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
 
@@ -263,12 +262,12 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_hsc_j" value="1" onchange="toggleHscJ()"> はい</label>
                 </div>
                 <div id="wrap_hsc_j" class="question-input-wrapper" style="display:none; margin-bottom:8px;">
-                    <input type="number" id="val_hsc_j_amt" value="" oninput="calculate()"><span class="unit">円 (実車)</span>
+                    <input type="tel" class="calc-input" id="val_hsc_j_amt" value="" oninput="calculate()"><span class="unit">円 (実車)</span>
                 </div>
                 
                 <div style="font-size:0.8rem; margin-bottom:4px;">空車 (ドライバー負担分):</div>
                 <div class="question-input-wrapper">
-                    <input type="number" id="val_hsc_k_dr" value="" oninput="calculate()"><span class="unit">円</span>
+                    <input type="tel" class="calc-input" id="val_hsc_k_dr" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
         </div>
@@ -295,6 +294,34 @@
     </div>
 
     <script>
+        // タップ時に数値を全選択して修正しやすくする ＆ Enterキーで次へ移動する処理
+        document.addEventListener("DOMContentLoaded", () => {
+            const inputs = document.querySelectorAll("input.calc-input");
+            
+            inputs.forEach((input, index) => {
+                // タップしたときに全選択
+                input.addEventListener("focus", function() {
+                    this.select();
+                });
+
+                // Enterキーで次の入力欄へ移動
+                input.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        // 表示されている（入力可能な）次の入力欄を探す
+                        for (let i = index + 1; i < inputs.length; i++) {
+                            let nextInput = inputs[i];
+                            // 親要素または自身が非表示でないか確認
+                            if (nextInput.offsetParent !== null) {
+                                nextInput.focus();
+                                break;
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
         function formatNumber(num) {
             if (num === 0) return "";
             return num.toLocaleString() + " 円";
