@@ -15,8 +15,26 @@
         h1 {
             text-align: center;
             font-size: 1.5rem;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #2c3e50;
+        }
+        .download-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .download-btn:hover {
+            background-color: #219653;
         }
         .container {
             display: flex;
@@ -50,13 +68,24 @@
             font-size: 0.9rem;
             font-weight: bold;
         }
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
         .form-group input {
-            width: 120px;
+            width: 100px;
             padding: 6px;
             text-align: right;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
+        }
+        .form-group span.unit {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #555;
+            width: 20px;
         }
         .question-box {
             background: #f9fbfd;
@@ -98,86 +127,141 @@
         }
         .sub-inputs {
             display: flex;
-            gap: 5px;
+            gap: 10px;
             flex-wrap: wrap;
             margin-top: 5px;
         }
+        .sub-input-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
         .sub-inputs input {
             width: 90px;
+            padding: 6px;
+            text-align: right;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .sub-inputs span.unit {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #555;
+        }
+        .question-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .question-input-wrapper input {
+            width: 100px;
+            padding: 6px;
+            text-align: right;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .question-input-wrapper span.unit {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #555;
         }
     </style>
 </head>
 <body>
 
     <h1>タクシー納金計算シミュレーター</h1>
+    <div class="download-bar">
+        <button class="download-btn" onclick="downloadFile()">📥 このアプリをファイルとして保存する</button>
+    </div>
 
     <div class="container">
         <div class="panel">
             <h2>1. レシート項目（手入力）</h2>
-            <div class="form-group"><label>運賃合計:</label><input type="number" id="l_unchin" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>料金合計:</label><input type="number" id="l_ryokin" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>割増合計:</label><input type="number" id="l_warimashi" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>割引合計:</label><input type="number" id="l_waribiki" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>通行料他合計:</label><input type="number" id="l_tsuko" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>定額運賃合計:</label><input type="number" id="l_teigaku" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>現金合計:</label><input type="number" id="l_genkin" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>チケット合計:</label><input type="number" id="l_ticket" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>クレジット合計:</label><input type="number" id="l_credit" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>デビット合計:</label><input type="number" id="l_debit" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>メンバーズ合計:</label><input type="number" id="l_members" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>iD合計:</label><input type="number" id="l_id" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>QUICPay合計:</label><input type="number" id="l_quicpay" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>銀聯合計:</label><input type="number" id="l_ginren" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>交通系IC合計:</label><input type="number" id="l_ic" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>QR/ネット決済合計:</label><input type="number" id="l_qr" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>ETC料金合計:</label><input type="number" id="l_etc" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>税金額:</label><input type="number" id="l_zeikin" value="0" oninput="calculate()"></div>
-            <div class="form-group"><label>総営収:</label><input type="number" id="l_sosho" value="76100" oninput="calculate()"></div>
+            <div class="form-group"><label>運賃合計:</label><div class="input-wrapper"><input type="number" id="l_unchin" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>料金合計:</label><div class="input-wrapper"><input type="number" id="l_ryokin" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>割増合計:</label><div class="input-wrapper"><input type="number" id="l_warimashi" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>割引合計:</label><div class="input-wrapper"><input type="number" id="l_waribiki" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>通行料他合計:</label><div class="input-wrapper"><input type="number" id="l_tsuko" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>定額運賃合計:</label><div class="input-wrapper"><input type="number" id="l_teigaku" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>現金合計:</label><div class="input-wrapper"><input type="number" id="l_genkin" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>チケット合計:</label><div class="input-wrapper"><input type="number" id="l_ticket" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>クレジット合計:</label><div class="input-wrapper"><input type="number" id="l_credit" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>デビット合計:</label><div class="input-wrapper"><input type="number" id="l_debit" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>メンバーズ合計:</label><div class="input-wrapper"><input type="number" id="l_members" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>iD合計:</label><div class="input-wrapper"><input type="number" id="l_id" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>QUICPay合計:</label><div class="input-wrapper"><input type="number" id="l_quicpay" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>銀聯合計:</label><div class="input-wrapper"><input type="number" id="l_ginren" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>交通系IC合計:</label><div class="input-wrapper"><input type="number" id="l_ic" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>QR/ネット決済合計:</label><div class="input-wrapper"><input type="number" id="l_qr" value="0" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>ETC料金合計:</label><div class="input-wrapper"><input type="number" id="l_etc" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>税金額:</label><div class="input-wrapper"><input type="number" id="l_zeikin" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
+            <div class="form-group"><label>総営収:</label><div class="input-wrapper"><input type="number" id="l_sosho" value="" placeholder="" oninput="calculate()"><span class="unit">円</span></div></div>
 
             <h2 style="margin-top: 25px;">2. 追加の質問回答</h2>
             
             <div class="question-box">
                 <p>Q1. 営業補償はありましたか？</p>
-                <label><input type="radio" name="q_eisho" value="0" checked onchange="toggleEisho()"> いいえ</label>
-                <label><input type="radio" name="q_eisho" value="1" onchange="toggleEisho()"> はい</label>
-                <input type="number" id="val_eisho" value="0" placeholder="金額" style="display:none; margin-top:5px;" oninput="calculate()">
+                <div>
+                    <label><input type="radio" name="q_eisho" value="0" checked onchange="toggleEisho()"> いいえ</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_eisho" value="1" onchange="toggleEisho()"> はい</label>
+                </div>
+                <div id="wrap_eisho" class="question-input-wrapper" style="display:none;">
+                    <input type="number" id="val_eisho" value="" oninput="calculate()"><span class="unit">円</span>
+                </div>
             </div>
 
             <div class="question-box">
                 <p>Q2. キャンセル等はありましたか？</p>
-                <label><input type="radio" name="q_cancel" value="0" checked onchange="toggleCancel()"> いいえ</label>
-                <label><input type="radio" name="q_cancel" value="1" onchange="toggleCancel()"> はい</label>
-                <input type="number" id="val_cancel" value="0" placeholder="金額" style="display:none; margin-top:5px;" oninput="calculate()">
+                <div>
+                    <label><input type="radio" name="q_cancel" value="0" checked onchange="toggleCancel()"> いいえ</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_cancel" value="1" onchange="toggleCancel()"> はい</label>
+                </div>
+                <div id="wrap_cancel" class="question-input-wrapper" style="display:none;">
+                    <input type="number" id="val_cancel" value="" oninput="calculate()"><span class="unit">円</span>
+                </div>
             </div>
 
             <div class="question-box">
                 <p>Q3. チケット・クーポンの内訳</p>
-                <label><input type="radio" name="q_ticket" value="0" checked onchange="toggleTicket()"> なし/そのまま</label>
-                <label><input type="radio" name="q_ticket" value="1" onchange="toggleTicket()"> あり</label>
-                <div id="sub_ticket" style="display:none; margin-top:5px;" class="sub-inputs">
-                    <input type="number" id="val_gen_ticket" placeholder="一般" oninput="calculate()">
-                    <input type="number" id="val_coupon" placeholder="クーポン" oninput="calculate()">
-                    <input type="number" id="val_cret_ticket" placeholder="Cチケット" oninput="calculate()">
+                <div>
+                    <label><input type="radio" name="q_ticket" value="0" checked onchange="toggleTicket()"> なし/そのまま</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_ticket" value="1" onchange="toggleTicket()"> あり</label>
+                </div>
+                <div id="sub_ticket" style="display:none;" class="sub-inputs">
+                    <div class="sub-input-item"><input type="number" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">一般円</span></div>
+                    <div class="sub-input-item"><input type="number" id="val_coupon" value="" oninput="calculate()"><span class="unit">CP円</span></div>
+                    <div class="sub-input-item"><input type="number" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">C券円</span></div>
                 </div>
             </div>
 
             <div class="question-box">
                 <p>Q4. 身障者割引はありましたか？</p>
-                <label><input type="radio" name="q_shinsho" value="0" checked onchange="toggleShinsho()"> いいえ</label>
-                <label><input type="radio" name="q_shinsho" value="1" onchange="toggleShinsho()"> はい</label>
-                <input type="number" id="val_shinsho" value="0" placeholder="金額" style="display:none; margin-top:5px;" oninput="calculate()">
+                <div>
+                    <label><input type="radio" name="q_shinsho" value="0" checked onchange="toggleShinsho()"> いいえ</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_shinsho" value="1" onchange="toggleShinsho()"> はい</label>
+                </div>
+                <div id="wrap_shinsho" class="question-input-wrapper" style="display:none;">
+                    <input type="number" id="val_shinsho" value="" oninput="calculate()"><span class="unit">円</span>
+                </div>
             </div>
 
             <div class="question-box">
                 <p>Q5. 高速道路の利用</p>
                 <div style="font-size:0.8rem; margin-bottom:4px;">実車: 
                     <label><input type="radio" name="q_hsc_j" value="0" checked onchange="toggleHscJ()"> なし</label>
-                    <label><input type="radio" name="q_hsc_j" value="1" onchange="toggleHscJ()"> あり</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_hsc_j" value="1" onchange="toggleHscJ()"> はい</label>
                 </div>
-                <input type="number" id="val_hsc_j_amt" value="0" placeholder="実車金額" style="display:none; margin-bottom:8px;" oninput="calculate()">
+                <div id="wrap_hsc_j" class="question-input-wrapper" style="display:none; margin-bottom:8px;">
+                    <input type="number" id="val_hsc_j_amt" value="" oninput="calculate()"><span class="unit">円 (実車)</span>
+                </div>
                 
                 <div style="font-size:0.8rem; margin-bottom:4px;">空車 (ドライバー負担分):</div>
-                <input type="number" id="val_hsc_k_dr" value="0" placeholder="DR負担金額" oninput="calculate()">
+                <div class="question-input-wrapper">
+                    <input type="number" id="val_hsc_k_dr" value="" placeholder="" oninput="calculate()"><span class="unit">円</span>
+                </div>
             </div>
         </div>
 
@@ -185,7 +269,7 @@
             <h2>3. 右側：日報・自動計算結果</h2>
             <div class="result-row"><span>営業補償:</span> <span id="r_eisho">0 円</span></div>
             <div class="result-row"><span>キャンセル等:</span> <span id="r_cancel">0 円</span></div>
-            <div class="result-row"><span>総営収:</span> <span id="r_sosho">76,100 円</span></div>
+            <div class="result-row"><span>総営収:</span> <span id="r_sosho">0 円</span></div>
             <div class="result-row"><span>一般チケット・クーポン:</span> <span id="r_ticket_coupon">0 円</span></div>
             <div class="result-row"><span>クレジットチケット:</span> <span id="r_cret_ticket">0 円</span></div>
             <div class="result-row"><span>メンバーズ:</span> <span id="r_members">0 円</span></div>
@@ -209,14 +293,14 @@
 
         function toggleEisho() {
             let show = document.querySelector('input[name="q_eisho"]:checked').value === "1";
-            document.getElementById('val_eisho').style.display = show ? 'block' : 'none';
-            if(!show) document.getElementById('val_eisho').value = 0;
+            document.getElementById('wrap_eisho').style.display = show ? 'flex' : 'none';
+            if(!show) document.getElementById('val_eisho').value = '';
             calculate();
         }
         function toggleCancel() {
             let show = document.querySelector('input[name="q_cancel"]:checked').value === "1";
-            document.getElementById('val_cancel').style.display = show ? 'block' : 'none';
-            if(!show) document.getElementById('val_cancel').value = 0;
+            document.getElementById('wrap_cancel').style.display = show ? 'flex' : 'none';
+            if(!show) document.getElementById('val_cancel').value = '';
             calculate();
         }
         function toggleTicket() {
@@ -231,23 +315,22 @@
         }
         function toggleShinsho() {
             let show = document.querySelector('input[name="q_shinsho"]:checked').value === "1";
-            document.getElementById('val_shinsho').style.display = show ? 'block' : 'none';
-            if(!show) document.getElementById('val_shinsho').value = 0;
+            document.getElementById('wrap_shinsho').style.display = show ? 'flex' : 'none';
+            if(!show) document.getElementById('val_shinsho').value = '';
             calculate();
         }
         function toggleHscJ() {
             let show = document.querySelector('input[name="q_hsc_j"]:checked').value === "1";
-            document.getElementById('val_hsc_j_amt').style.display = show ? 'block' : 'none';
-            if(!show) document.getElementById('val_hsc_j_amt').value = 0;
+            document.getElementById('wrap_hsc_j').style.display = show ? 'flex' : 'none';
+            if(!show) document.getElementById('val_hsc_j_amt').value = '';
             calculate();
         }
 
         function calculate() {
-            // 左側の値取得
             let l_sosho = Number(document.getElementById('l_sosho').value) || 0;
             let l_members = Number(document.getElementById('l_members').value) || 0;
             let l_credit = Number(document.getElementById('l_credit').value) || 0;
-            let l_tsuko = Number(document.getElementById('l_tsuko').value) || 0; // GO入金分に連動
+            let l_tsuko = Number(document.getElementById('l_tsuko').value) || 0;
 
             let debit = Number(document.getElementById('l_debit').value) || 0;
             let id = Number(document.getElementById('l_id').value) || 0;
@@ -257,7 +340,6 @@
             let qr = Number(document.getElementById('l_qr').value) || 0;
             let otherSum = debit + id + quicpay + ginren + ic + qr;
 
-            // 質問の回答値取得
             let eisho = document.querySelector('input[name="q_eisho"]:checked').value === "1" ? (Number(document.getElementById('val_eisho').value) || 0) : 0;
             let cancel = document.querySelector('input[name="q_cancel"]:checked').value === "1" ? (Number(document.getElementById('val_cancel').value) || 0) : 0;
             
@@ -271,15 +353,12 @@
 
             let shinsho = document.querySelector('input[name="q_shinsho"]:checked').value === "1" ? (Number(document.getElementById('val_shinsho').value) || 0) : 0;
 
-            // 高速計算
             let hscJAmt = document.querySelector('input[name="q_hsc_j"]:checked').value === "1" ? (Number(document.getElementById('val_hsc_j_amt').value) || 0) : 0;
             let hscKDr = Number(document.getElementById('val_hsc_k_dr').value) || 0;
             let hscTotal = hscJAmt + hscKDr;
 
-            // GO入金分
             let goTotal = l_tsuko;
 
-            // 右側項目への反映
             document.getElementById('r_eisho').innerText = formatNumber(eisho);
             document.getElementById('r_cancel').innerText = formatNumber(cancel);
             document.getElementById('r_sosho').innerText = formatNumber(l_sosho);
@@ -290,24 +369,37 @@
             document.getElementById('r_other').innerText = formatNumber(otherSum);
             document.getElementById('r_shinsho').innerText = formatNumber(shinsho);
 
-            // 差引合計計算
-            // (営業補償 ＋ 総営収) － (キャンセル等 ＋ 一般チケットクーポン ＋ クレジットチケット ＋ メンバーズ ＋ クレジットカード ＋ その他)
             let plusSum = eisho + l_sosho;
             let minusSum = cancel + ticketCouponSum + cretTicket + l_members + l_credit + otherSum;
             let sashihiki = plusSum - minusSum;
 
             document.getElementById('r_sashihiki').innerText = formatNumber(sashihiki);
 
-            // 高速・GO
             document.getElementById('r_hsc').innerText = formatNumber(hscTotal);
             document.getElementById('r_go').innerText = formatNumber(goTotal);
 
-            // 納金計（最終金額） = 差引合計 ＋ 高速 ＋ GO
             let nokinKei = sashihiki + hscTotal + goTotal;
             document.getElementById('r_nokinkei').innerText = formatNumber(nokinKei);
         }
 
-        // 初期計算実行
+        // ファイルダウンロード機能
+        function downloadFile() {
+            let cloneDoc = document.documentElement.cloneNode(true);
+            let bar = cloneDoc.querySelector('.download-bar');
+            if (bar) bar.remove();
+
+            let htmlContent = "<!DOCTYPE html>\n" + cloneDoc.outerHTML;
+            let blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'taxi_calc.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
         calculate();
     </script>
 </body>
