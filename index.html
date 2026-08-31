@@ -256,18 +256,31 @@
             </div>
 
             <div class="question-box">
-                <p>Q5. 高速道路の利用</p>
-                <div style="font-size:0.8rem; margin-bottom:4px;">実車: 
+                <p>Q5. 空車で高速道路の利用はありましたか？</p>
+                <div>
+                    <label><input type="radio" name="q_hsc_k" value="0" checked onchange="toggleHscK()"> いいえ</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_hsc_k" value="1" onchange="toggleHscK()"> はい</label>
+                </div>
+                <div id="sub_hsc_k" style="display:none;" class="sub-inputs">
+                    <div class="sub-input-item">
+                        <label>会社負担ETC料金:</label>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_kaisha" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                    <div class="sub-input-item">
+                        <label>ドライバー負担ETC料金:</label>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_dr" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Q6. 実車で高速道路の利用はありましたか？</p>
+                <div>
                     <label><input type="radio" name="q_hsc_j" value="0" checked onchange="toggleHscJ()"> いいえ</label>
                     <label style="margin-left: 10px;"><input type="radio" name="q_hsc_j" value="1" onchange="toggleHscJ()"> はい</label>
                 </div>
-                <div id="wrap_hsc_j" class="question-input-wrapper" style="display:none; margin-bottom:8px;">
-                    <input type="tel" class="calc-input" id="val_hsc_j_amt" value="" oninput="calculate()"><span class="unit">円 (実車)</span>
-                </div>
-                
-                <div style="font-size:0.8rem; margin-bottom:4px;">空車 (ドライバー負担分):</div>
-                <div class="question-input-wrapper">
-                    <input type="tel" class="calc-input" id="val_hsc_k_dr" value="" oninput="calculate()"><span class="unit">円</span>
+                <div id="wrap_hsc_j" class="question-input-wrapper" style="display:none;">
+                    <input type="tel" class="calc-input" id="val_hsc_j_amt" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
         </div>
@@ -348,6 +361,15 @@
             if(!show) document.getElementById('val_shinsho').value = '';
             calculate();
         }
+        function toggleHscK() {
+            let show = document.querySelector('input[name="q_hsc_k"]:checked').value === "1";
+            document.getElementById('sub_hsc_k').style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_hsc_k_kaisha').value = '';
+                document.getElementById('val_hsc_k_dr').value = '';
+            }
+            calculate();
+        }
         function toggleHscJ() {
             let show = document.querySelector('input[name="q_hsc_j"]:checked').value === "1";
             document.getElementById('wrap_hsc_j').style.display = show ? 'flex' : 'none';
@@ -381,9 +403,20 @@
 
             let shinsho = document.querySelector('input[name="q_shinsho"]:checked').value === "1" ? (Number(document.getElementById('val_shinsho').value) || 0) : 0;
 
-            let hscJAmt = document.querySelector('input[name="q_hsc_j"]:checked').value === "1" ? (Number(document.getElementById('val_hsc_j_amt').value) || 0) : 0;
-            let hscKDr = Number(document.getElementById('val_hsc_k_dr').value) || 0;
-            let hscTotal = hscJAmt + hscKDr;
+            // Q5 空車（ドライバー負担分）
+            let hscKDr = 0;
+            if(document.querySelector('input[name="q_hsc_k"]:checked').value === "1") {
+                hscKDr = Number(document.getElementById('val_hsc_k_dr').value) || 0;
+            }
+
+            // Q6 実車
+            let hscJAmt = 0;
+            if(document.querySelector('input[name="q_hsc_j"]:checked').value === "1") {
+                hscJAmt = Number(document.getElementById('val_hsc_j_amt').value) || 0;
+            }
+
+            // 高速入金分 = ドライバー負担 + 実車
+            let hscTotal = hscKDr + hscJAmt;
 
             let goTotal = l_tsuko;
 
