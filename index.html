@@ -127,17 +127,17 @@
         }
         .sub-inputs {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 5px;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
         }
         .sub-input-item {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
         .sub-inputs input {
-            width: 90px;
+            width: 100px;
             padding: 6px;
             text-align: right;
             border: 1px solid #ccc;
@@ -145,7 +145,7 @@
             font-size: 1rem;
         }
         .sub-inputs span.unit {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #555;
         }
@@ -219,13 +219,12 @@
             <div class="question-box">
                 <p>Q3. チケット・クーポンの内訳</p>
                 <div>
-                    <label><input type="radio" name="q_ticket" value="0" checked onchange="toggleTicket()"> なし/そのまま</label>
+                    <label><input type="radio" name="q_ticket" value="0" checked onchange="toggleTicket()"> なし</label>
                     <label style="margin-left: 10px;"><input type="radio" name="q_ticket" value="1" onchange="toggleTicket()"> あり</label>
                 </div>
                 <div id="sub_ticket" style="display:none;" class="sub-inputs">
-                    <div class="sub-input-item"><input type="number" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">一般円</span></div>
-                    <div class="sub-input-item"><input type="number" id="val_coupon" value="" oninput="calculate()"><span class="unit">CP円</span></div>
-                    <div class="sub-input-item"><input type="number" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">C券円</span></div>
+                    <div class="sub-input-item"><input type="number" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">一般チケット・クーポン</span></div>
+                    <div class="sub-input-item"><input type="number" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">クレジットチケット</span></div>
                 </div>
             </div>
 
@@ -301,7 +300,6 @@
             document.getElementById('sub_ticket').style.display = show ? 'flex' : 'none';
             if(!show) {
                 document.getElementById('val_gen_ticket').value = '';
-                document.getElementById('val_coupon').value = '';
                 document.getElementById('val_cret_ticket').value = '';
             }
             calculate();
@@ -336,13 +334,12 @@
             let eisho = document.querySelector('input[name="q_eisho"]:checked').value === "1" ? (Number(document.getElementById('val_eisho').value) || 0) : 0;
             let cancel = document.querySelector('input[name="q_cancel"]:checked').value === "1" ? (Number(document.getElementById('val_cancel').value) || 0) : 0;
             
-            let genTicket = 0, coupon = 0, cretTicket = 0;
+            let genTicket = 0, cretTicket = 0;
             if(document.querySelector('input[name="q_ticket"]:checked').value === "1") {
                 genTicket = Number(document.getElementById('val_gen_ticket').value) || 0;
-                coupon = Number(document.getElementById('val_coupon').value) || 0;
                 cretTicket = Number(document.getElementById('val_cret_ticket').value) || 0;
             }
-            let ticketCouponSum = genTicket + coupon;
+            let ticketCouponSum = genTicket;
 
             let shinsho = document.querySelector('input[name="q_shinsho"]:checked').value === "1" ? (Number(document.getElementById('val_shinsho').value) || 0) : 0;
 
