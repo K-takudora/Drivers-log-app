@@ -15,26 +15,8 @@
         h1 {
             text-align: center;
             font-size: 1.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 20px; /* 余白を少し調整しました */
             color: #2c3e50;
-        }
-        .download-bar {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .download-btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .download-btn:hover {
-            background-color: #219653;
         }
         .container {
             display: flex;
@@ -189,10 +171,6 @@
 <body>
 
     <h1>タクシー納金計算シミュレーター</h1>
-    <div class="download-bar">
-        <button class="download-btn" onclick="downloadFile()">📥 このアプリをファイルとして保存する</button>
-    </div>
-
     <div class="container">
         <div class="panel">
             <h2>1. レシート項目（手入力）</h2>
@@ -472,23 +450,6 @@
 
             let nokinKei = sashihiki + hscTotal + goTotal;
             document.getElementById('r_nokinkei').innerText = formatNumber(nokinKei);
-        }
-
-        function downloadFile() {
-            let cloneDoc = document.documentElement.cloneNode(true);
-            let bar = cloneDoc.querySelector('.download-bar');
-            if (bar) bar.remove();
-
-            let htmlContent = "<!DOCTYPE html>\n" + cloneDoc.outerHTML;
-            let blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-            let url = URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'taxi_calc.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         calculate();
