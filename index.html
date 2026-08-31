@@ -174,7 +174,7 @@
 
     <div class="container">
         <div class="panel">
-            <h2>1. 納金指示書（レシート）項目（手入力）</h2>
+            <h2>1. 納金指示書（レシート）</h2>
             <div class="form-group"><label>通行料他合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_tsuko" value="" oninput="calculate()"><span class="unit">円</span></div></div>
             <div class="form-group"><label>クレジット合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_credit" value="" oninput="calculate()"><span class="unit">円</span></div></div>
             <div class="form-group"><label>デビット合計:</label><div class="input-wrapper"><input type="tel" class="calc-input" id="l_debit" value="" oninput="calculate()"><span class="unit">円</span></div></div>
@@ -213,53 +213,4 @@
             <div class="question-box">
                 <p>Q3. チケット、クーポン等を受け取りましたか？</p>
                 <div>
-                    <label><input type="radio" name="q_ticket" value="0" checked onchange="toggleTicket()"> いいえ</label>
-                    <label style="margin-left: 10px;"><input type="radio" name="q_ticket" value="1" onchange="toggleTicket()"> はい</label>
-                </div>
-                <div id="sub_ticket" style="display:none;" class="sub-inputs">
-                    <div class="sub-input-item">
-                        <label>一般チケット・クーポン:</label>
-                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
-                    </div>
-                    <div class="sub-input-item">
-                        <label>クレジットチケット:</label>
-                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="question-box">
-                <p>Q4. 身障者割引はありましたか？</p>
-                <div>
-                    <label><input type="radio" name="q_shinsho" value="0" checked onchange="toggleShinsho()"> いいえ</label>
-                    <label style="margin-left: 10px;"><input type="radio" name="q_shinsho" value="1" onchange="toggleShinsho()"> はい</label>
-                </div>
-                <div id="wrap_shinsho" class="question-input-wrapper" style="display:none;">
-                    <input type="tel" class="calc-input" id="val_shinsho" value="" oninput="calculate()"><span class="unit">円</span>
-                </div>
-            </div>
-
-            <div class="question-box">
-                <p>Q5. 空車で高速道路の利用はありましたか？</p>
-                <div>
-                    <label><input type="radio" name="q_hsc_k" value="0" checked onchange="toggleHscK()"> いいえ</label>
-                    <label style="margin-left: 10px;"><input type="radio" name="q_hsc_k" value="1" onchange="toggleHscK()"> はい</label>
-                </div>
-                <div id="sub_hsc_k" style="display:none;" class="sub-inputs">
-                    <div class="sub-input-item">
-                        <label>会社負担ETC料金:</label>
-                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_kaisha" value="" oninput="calculate()"><span class="unit">円</span></div>
-                    </div>
-                    <div class="sub-input-item">
-                        <label>ドライバー負担ETC料金:</label>
-                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_dr" value="" oninput="calculate()"><span class="unit">円</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="question-box">
-                <p>Q6. 実車で高速道路の利用はありましたか？</p>
-                <div>
-                    <label><input type="radio" name="q_hsc_j" value="0" checked onchange="toggleHscJ()"> いいえ</label>
-                    <label style="margin-left: 10px;"><input type="radio" name="q_hsc_j" value="1" onchange="toggleHscJ()"> はい</label>
-                </div>
+                    <label><input type="radio" name="q_ticket" value="
