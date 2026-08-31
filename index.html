@@ -227,7 +227,7 @@
             </div>
 
             <div class="question-box">
-                <p>Q3. チケット・クーポンの内訳</p>
+                <p>Q3. チケット、クーポン等を受け取りましたか？</p>
                 <div>
                     <label><input type="radio" name="q_ticket" value="0" checked onchange="toggleTicket()"> なし</label>
                     <label style="margin-left: 10px;"><input type="radio" name="q_ticket" value="1" onchange="toggleTicket()"> あり</label>
@@ -294,24 +294,19 @@
     </div>
 
     <script>
-        // タップ時に数値を全選択して修正しやすくする ＆ Enterキーで次へ移動する処理
         document.addEventListener("DOMContentLoaded", () => {
             const inputs = document.querySelectorAll("input.calc-input");
             
             inputs.forEach((input, index) => {
-                // タップしたときに全選択
                 input.addEventListener("focus", function() {
                     this.select();
                 });
 
-                // Enterキーで次の入力欄へ移動
                 input.addEventListener("keydown", function(event) {
                     if (event.key === "Enter") {
                         event.preventDefault();
-                        // 表示されている（入力可能な）次の入力欄を探す
                         for (let i = index + 1; i < inputs.length; i++) {
                             let nextInput = inputs[i];
-                            // 親要素または自身が非表示でないか確認
                             if (nextInput.offsetParent !== null) {
                                 nextInput.focus();
                                 break;
@@ -416,7 +411,6 @@
             document.getElementById('r_nokinkei').innerText = formatNumber(nokinKei);
         }
 
-        // ファイルダウンロード機能
         function downloadFile() {
             let cloneDoc = document.documentElement.cloneNode(true);
             let bar = cloneDoc.querySelector('.download-bar');
