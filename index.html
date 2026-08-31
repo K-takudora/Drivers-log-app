@@ -133,6 +133,16 @@
         }
         .sub-input-item {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sub-input-item label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #444;
+        }
+        .sub-input-wrapper {
+            display: flex;
             align-items: center;
             gap: 5px;
         }
@@ -148,6 +158,7 @@
             font-size: 0.9rem;
             font-weight: bold;
             color: #555;
+            width: 20px;
         }
         .question-input-wrapper {
             display: flex;
@@ -223,8 +234,14 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_ticket" value="1" onchange="toggleTicket()"> あり</label>
                 </div>
                 <div id="sub_ticket" style="display:none;" class="sub-inputs">
-                    <div class="sub-input-item"><input type="number" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">一般チケット・クーポン</span></div>
-                    <div class="sub-input-item"><input type="number" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">クレジットチケット</span></div>
+                    <div class="sub-input-item">
+                        <label>一般チケット・クーポン:</label>
+                        <div class="sub-input-wrapper"><input type="number" id="val_gen_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                    <div class="sub-input-item">
+                        <label>クレジットチケット:</label>
+                        <div class="sub-input-wrapper"><input type="number" id="val_cret_ticket" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
                 </div>
             </div>
 
