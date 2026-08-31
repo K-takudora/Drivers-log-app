@@ -293,35 +293,35 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            setupEnterNavigation();
+        });
+
+        function setupEnterNavigation() {
             const inputs = document.querySelectorAll("input.calc-input");
             
-            inputs.forEach((input, index) => {
-                input.addEventListener("focus", function() {
+            inputs.forEach((input) => {
+                input.onfocus = function() {
                     this.select();
                     setTimeout(() => {
                         this.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 300);
-                });
+                };
 
-                input.addEventListener("keydown", function(event) {
+                input.onkeydown = function(event) {
                     if (event.key === "Enter") {
                         event.preventDefault();
-                        let moved = false;
-                        for (let i = index + 1; i < inputs.length; i++) {
-                            let nextInput = inputs[i];
-                            if (nextInput.offsetParent !== null) {
-                                nextInput.focus();
-                                moved = true;
-                                break;
-                            }
-                        }
-                        if (!moved) {
+                        const currentInputs = Array.from(document.querySelectorAll("input.calc-input")).filter(el => el.offsetParent !== null);
+                        const currentIndex = currentInputs.indexOf(this);
+                        
+                        if (currentIndex !== -1 && currentIndex + 1 < currentInputs.length) {
+                            currentInputs[currentIndex + 1].focus();
+                        } else {
                             this.blur();
                         }
                     }
-                });
+                };
             });
-        });
+        }
 
         function formatNumber(num) {
             return num.toLocaleString() + " 円";
@@ -336,6 +336,7 @@
             } else {
                 setTimeout(() => document.getElementById('val_eisho').focus(), 100);
             }
+            setupEnterNavigation();
             calculate();
         }
         function toggleCancel() {
@@ -347,6 +348,7 @@
             } else {
                 setTimeout(() => document.getElementById('val_cancel').focus(), 100);
             }
+            setupEnterNavigation();
             calculate();
         }
         function toggleTicket() {
@@ -359,6 +361,7 @@
             } else {
                 setTimeout(() => document.getElementById('val_gen_ticket').focus(), 100);
             }
+            setupEnterNavigation();
             calculate();
         }
         function toggleShinsho() {
@@ -370,8 +373,97 @@
             } else {
                 setTimeout(() => document.getElementById('val_shinsho').focus(), 100);
             }
+            setupEnterNavigation();
             calculate();
         }
         function toggleHscK() {
             let show = document.querySelector('input[name="q_hsc_k"]:checked').value === "1";
-            let wrap = document
+            let wrap = document.getElementById('sub_hsc_k');
+            wrap.style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_hsc_k_kaisha').value = '';
+                document.getElementById('val_hsc_k_dr').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_hsc_k_kaisha').focus(), 100);
+            }
+            setupEnterNavigation();
+            calculate();
+        }
+        function toggleHscJ() {
+            let show = document.querySelector('input[name="q_hsc_j"]:checked').value === "1";
+            let wrap = document.getElementById('wrap_hsc_j');
+            wrap.style.display = show ? 'flex' : 'none';
+            if(!show) {
+                document.getElementById('val_hsc_j_amt').value = '';
+            } else {
+                setTimeout(() => document.getElementById('val_hsc_j_amt').focus(), 100);
+            }
+            setupEnterNavigation();
+            calculate();
+        }
+
+        function calculate() {
+            let l_sosho = Number(document.getElementById('l_sosho').value) || 0;
+            let l_members = Number(document.getElementById('l_members').value) || 0;
+            let l_credit = Number(document.getElementById('l_credit').value) || 0;
+            let l_tsuko = Number(document.getElementById('l_tsuko').value) || 0;
+
+            let debit = Number(document.getElementById('l_debit').value) || 0;
+            let id = Number(document.getElementById('l_id').value) || 0;
+            let quicpay = Number(document.getElementById('l_quicpay').value) || 0;
+            let ginren = Number(document.getElementById('l_ginren').value) || 0;
+            let ic = Number(document.getElementById('l_ic').value) || 0;
+            let qr = Number(document.getElementById('l_qr').value) || 0;
+            let otherSum = debit + id + quicpay + ginren + ic + qr;
+
+            let eisho = document.querySelector('input[name="q_eisho"]:checked').value === "1" ? (Number(document.getElementById('val_eisho').value) || 0) : 0;
+            let cancel = document.querySelector('input[name="q_cancel"]:checked').value === "1" ? (Number(document.getElementById('val_cancel').value) || 0) : 0;
+            
+            let genTicket = 0, cretTicket = 0;
+            if(document.querySelector('input[name="q_ticket"]:checked').value === "1") {
+                genTicket = Number(document.getElementById('val_gen_ticket').value) || 0;
+                cretTicket = Number(document.getElementById('val_cret_ticket').value) || 0;
+            }
+            let ticketCouponSum = genTicket;
+
+            let shinsho = document.querySelector('input[name="q_shinsho"]:checked').value === "1" ? (Number(document.getElementById('val_shinsho').value) || 0) : 0;
+
+            let hscKDr = 0;
+            if(document.querySelector('input[name="q_hsc_k"]:checked').value === "1") {
+                hscKDr = Number(document.getElementById('val_hsc_k_dr').value) || 0;
+            }
+
+            let hscJAmt = 0;
+            if(document.querySelector('input[name="q_hsc_j"]:checked').value === "1") {
+                hscJAmt = Number(document.getElementById('val_hsc_j_amt').value) || 0;
+            }
+
+            let hscTotal = hscKDr + hscJAmt;
+            let goTotal = l_tsuko;
+
+            document.getElementById('r_eisho').innerText = formatNumber(eisho);
+            document.getElementById('r_cancel').innerText = formatNumber(cancel);
+            document.getElementById('r_sosho').innerText = formatNumber(l_sosho);
+            document.getElementById('r_ticket_coupon').innerText = formatNumber(ticketCouponSum);
+            document.getElementById('r_cret_ticket').innerText = formatNumber(cretTicket);
+            document.getElementById('r_members').innerText = formatNumber(l_members);
+            document.getElementById('r_credit').innerText = formatNumber(l_credit);
+            document.getElementById('r_other').innerText = formatNumber(otherSum);
+            document.getElementById('r_shinsho').innerText = formatNumber(shinsho);
+
+            let plusSum = eisho + l_sosho;
+            let minusSum = cancel + ticketCouponSum + cretTicket + l_members + l_credit + otherSum;
+            let sashihiki = plusSum - minusSum;
+
+            document.getElementById('r_sashihiki').innerText = formatNumber(sashihiki);
+            document.getElementById('r_hsc').innerText = formatNumber(hscTotal);
+            document.getElementById('r_go').innerText = formatNumber(goTotal);
+
+            let nokinKei = sashihiki + hscTotal + goTotal;
+            document.getElementById('r_nokinkei').innerText = formatNumber(nokinKei);
+        }
+
+        calculate();
+    </script>
+</body>
+</html>
