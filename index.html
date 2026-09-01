@@ -128,13 +128,16 @@
             align-items: center;
             gap: 5px;
         }
-        .sub-inputs input {
-            width: 100px;
+        .sub-inputs input, .sub-inputs select {
+            width: 140px;
             padding: 6px;
-            text-align: right;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 1rem;
+            font-size: 0.9rem;
+        }
+        .sub-inputs input.calc-input {
+            width: 100px;
+            text-align: right;
         }
         .sub-inputs span.unit {
             font-size: 0.9rem;
@@ -247,12 +250,33 @@
                 </div>
                 <div id="sub_hsc_k" style="display:none;" class="sub-inputs">
                     <div class="sub-input-item">
+                        <label>使用した高速道路:</label>
+                        <div class="sub-input-wrapper">
+                            <select id="sel_hsc_route" onchange="changeHscRoute()">
+                                <option value="yokosuka">横浜横須賀道路</option>
+                                <option value="daisan_yokohane">第三京浜を使用しての横羽線</option>
+                                <option value="kaigan">海岸線</option>
+                                <option value="joban_gaikan">常磐道からの帰りで外環</option>
+                                <option value="kanagawa">首都高神奈川線帰り</option>
+                                <option value="omiya_shinshin">首都高大宮線・新都心線帰り</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sub-input-item" id="wrap_hsc_sub_amt" style="display:none;">
+                        <label id="lbl_hsc_sub_amt">追加金額:</label>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_sub_amt" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                    <div class="sub-input-item">
+                        <label>空車ETC料金:</label>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_total" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                    <div class="sub-input-item">
                         <label>会社負担ETC料金:</label>
-                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_kaisha" value="" oninput="calculate()"><span class="unit">円</span></div>
+                        <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_kaisha" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
                     </div>
                     <div class="sub-input-item">
                         <label>ドライバー負担ETC料金:</label>
-                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_dr" value="" oninput="calculate()"><span class="unit">円</span></div>
+                        <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_dr" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
                     </div>
                 </div>
             </div>
@@ -297,11 +321,11 @@
         });
 
         function setupEnterNavigation() {
-            const inputs = document.querySelectorAll("input.calc-input");
+            const inputs = document.querySelectorAll("input.calc-input, select");
             
             inputs.forEach((input) => {
                 input.onfocus = function() {
-                    this.select();
+                    if(this.tagName === 'INPUT') this.select();
                     setTimeout(() => {
                         this.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 300);
@@ -310,7 +334,7 @@
                 input.onkeydown = function(event) {
                     if (event.key === "Enter") {
                         event.preventDefault();
-                        const currentInputs = Array.from(document.querySelectorAll("input.calc-input")).filter(el => el.offsetParent !== null);
+                        const currentInputs = Array.from(document.querySelectorAll("input.calc-input, select")).filter(el => el.offsetParent !== null);
                         const currentIndex = currentInputs.indexOf(this);
                         
                         if (currentIndex !== -1 && currentIndex + 1 < currentInputs.length) {
@@ -376,15 +400,37 @@
             setupEnterNavigation();
             calculate();
         }
+        
+        function changeHscRoute() {
+            let route = document.getElementById('sel_hsc_route').value;
+            let subWrap = document.getElementById('wrap_hsc_sub_amt');
+            let lbl = document.getElementById('lbl_hsc_sub_amt');
+            
+            if (route === 'kaigan') {
+                subWrap.style.display = 'flex';
+                lbl.innerText = '京葉相当分:';
+            } else if (route === 'joban_gaikan') {
+                subWrap.style.display = 'flex';
+                lbl.innerText = '最終営業のみ:';
+            } else {
+                subWrap.style.display = 'none';
+                document.getElementById('val_hsc_sub_amt').value = '';
+            }
+            setupEnterNavigation();
+            calculate();
+        }
+
         function toggleHscK() {
             let show = document.querySelector('input[name="q_hsc_k"]:checked').value === "1";
             let wrap = document.getElementById('sub_hsc_k');
             wrap.style.display = show ? 'flex' : 'none';
             if(!show) {
-                document.getElementById('val_hsc_k_kaisha').value = '';
-                document.getElementById('val_hsc_k_dr').value = '';
+                document.getElementById('sel_hsc_route').selectedIndex = 0;
+                document.getElementById('val_hsc_sub_amt').value = '';
+                document.getElementById('val_hsc_k_total').value = '';
+                document.getElementById('wrap_hsc_sub_amt').style.display = 'none';
             } else {
-                setTimeout(() => document.getElementById('val_hsc_k_kaisha').focus(), 100);
+                setTimeout(() => document.getElementById('sel_hsc_route').focus(), 100);
             }
             setupEnterNavigation();
             calculate();
@@ -429,8 +475,26 @@
             let shinsho = document.querySelector('input[name="q_shinsho"]:checked').value === "1" ? (Number(document.getElementById('val_shinsho').value) || 0) : 0;
 
             let hscKDr = 0;
+            let hscKKaisha = 0;
             if(document.querySelector('input[name="q_hsc_k"]:checked').value === "1") {
-                hscKDr = Number(document.getElementById('val_hsc_k_dr').value) || 0;
+                let totalEtc = Number(document.getElementById('val_hsc_k_total').value) || 0;
+                let route = document.getElementById('sel_hsc_route').value;
+                let subAmt = Number(document.getElementById('val_hsc_sub_amt').value) || 0;
+
+                if (route === 'yokosuka') {
+                    hscKKaisha = 520;
+                } else if (route === 'daisan_yokohane' || route === 'kanagawa' || route === 'omiya_shinshin') {
+                    hscKKaisha = 700;
+                } else if (route === 'kaigan' || route === 'joban_gaikan') {
+                    hscKKaisha = subAmt;
+                }
+
+                // ドライバー負担 ＝ 入力された空車ETC料金 － 選択した会社負担分
+                hscKDr = totalEtc - hscKKaisha;
+                if (hscKDr < 0) hscKDr = 0; // マイナスにならないように保護
+
+                document.getElementById('val_hsc_k_kaisha').value = formatNumber(hscKKaisha);
+                document.getElementById('val_hsc_k_dr').value = formatNumber(hscKDr);
             }
 
             let hscJAmt = 0;
