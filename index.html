@@ -169,6 +169,24 @@
             font-weight: bold;
             color: #555;
         }
+        .rule-note {
+            margin-top: 20px;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #856404;
+            line-height: 1.5;
+        }
+        .rule-note p {
+            margin: 0 0 5px 0;
+            font-weight: bold;
+        }
+        .rule-note ul {
+            margin: 0;
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -256,7 +274,7 @@
                                 <option value="yokosuka">横浜横須賀道路</option>
                                 <option value="daisan_yokohane">第三京浜を使用しての横羽線</option>
                                 <option value="kaigan">海岸線</option>
-                                <option value="joban_gaikan">常磐道からの帰りで外環</option>
+                                <option value="joban_gaikan">外環</option>
                                 <option value="kanagawa">首都高神奈川線帰り</option>
                                 <option value="omiya_shinshin">首都高大宮線・新都心線帰り</option>
                             </select>
@@ -312,6 +330,18 @@
             <div class="result-row"><span>GO入金分(+):</span> <span id="r_go"></span></div>
             
             <div class="result-row total"><span>納金計（最終金額）:</span> <span id="r_nokinkei"></span></div>
+
+            <div class="rule-note">
+                <p>【高速道路の会社負担ルール】</p>
+                <ul>
+                    <li>横浜横須賀道路は520円まで</li>
+                    <li>第三京浜を使用しての横羽線は合計で700円まで</li>
+                    <li>海岸線使用は京葉相当分のみ会社負担</li>
+                    <li>外環は常磐道からの帰りで最終営業のみ</li>
+                    <li>首都高神奈川線帰りの会社負担は700円まで</li>
+                    <li>首都高大宮線・新都心線帰りの会社負担は700円まで</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -489,9 +519,8 @@
                     hscKKaisha = subAmt;
                 }
 
-                // ドライバー負担 ＝ 入力された空車ETC料金 － 選択した会社負担分
                 hscKDr = totalEtc - hscKKaisha;
-                if (hscKDr < 0) hscKDr = 0; // マイナスにならないように保護
+                if (hscKDr < 0) hscKDr = 0;
 
                 document.getElementById('val_hsc_k_kaisha').value = formatNumber(hscKKaisha);
                 document.getElementById('val_hsc_k_dr').value = formatNumber(hscKDr);
