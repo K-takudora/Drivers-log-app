@@ -256,7 +256,7 @@
                     <label style="margin-left: 10px;"><input type="radio" name="q_shinsho" value="1" onchange="toggleShinsho()"> はい</label>
                 </div>
                 <div id="wrap_shinsho" class="question-input-wrapper" style="display:none;">
-                    <input type="tel" class="calc-input" id="val_shinsho" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    <input type="tel" class="calc-input" id="val_shinsho" value="" oninput="calculate()"><span class="unit">円</span>
                 </div>
             </div>
 
@@ -306,7 +306,7 @@
                         </div>
                     </div>
 
-                    <div id="sub_hsc_k2" style="display:none; display:none; flex-direction:column; gap:8px; margin-top:8px;">
+                    <div id="sub_hsc_k2" style="display:none; flex-direction:column; gap:8px; margin-top:8px;">
                         <div class="sub-input-item">
                             <label>使用した高速道路(2回目):</label>
                             <div class="sub-input-wrapper">
@@ -519,7 +519,6 @@
                 document.getElementById('val_hsc_sub_amt').value = '';
                 document.getElementById('val_hsc_k_total').value = '';
                 document.getElementById('wrap_hsc_sub_amt').style.display = 'none';
-                // 2回目もリセット
                 document.querySelector('input[name="q_hsc_k2_exist"][value="0"]').checked = true;
                 toggleHscK2();
             } else {
@@ -605,7 +604,6 @@
                 document.getElementById('val_hsc_k_kaisha').value = formatNumber(hscKKaisha);
                 document.getElementById('val_hsc_k_dr').value = formatNumber(hscKDr);
 
-                // 2回目計算
                 if(document.querySelector('input[name="q_hsc_k2_exist"]:checked').value === "1") {
                     let totalEtc2 = Number(document.getElementById('val_hsc_k_total2').value) || 0;
                     let route2 = document.getElementById('sel_hsc_route2').value;
