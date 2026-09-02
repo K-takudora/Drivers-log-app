@@ -296,46 +296,45 @@
                         <label>ドライバー負担ETC料金:</label>
                         <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_dr" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- 2回目以降の追加分（Q1〜Q4と同様のシンプルな構造に修正） -->
-                    <div style="margin-top: 10px; border-top: 1px dashed #bce8f1; padding-top: 8px;">
-                        <p style="margin: 0 0 6px 0; font-size: 0.85rem; font-weight: bold; color: #31708f;">空車で高速道路の利用は、他にもありますか？</p>
-                        <div>
-                            <label><input type="radio" name="q_hsc_k2_exist" value="0" checked onchange="toggleHscK2()"> なし</label>
-                            <label style="margin-left: 10px;"><input type="radio" name="q_hsc_k2_exist" value="1" onchange="toggleHscK2()"> ある</label>
+            <!-- Q5-1の独立した箱（Q5で「はい」のときに出現） -->
+            <div class="question-box" id="box_hsc_k2" style="display:none;">
+                <p>Q5-1. 空車で高速道路の利用は、他にもありますか？</p>
+                <div>
+                    <label><input type="radio" name="q_hsc_k2_exist" value="0" checked onchange="toggleHscK2()"> いいえ</label>
+                    <label style="margin-left: 10px;"><input type="radio" name="q_hsc_k2_exist" value="1" onchange="toggleHscK2()"> はい</label>
+                </div>
+                <div id="sub_hsc_k2" style="display:none;" class="sub-inputs">
+                    <div class="sub-input-item">
+                        <label>使用した高速道路:</label>
+                        <div class="sub-input-wrapper">
+                            <select id="sel_hsc_route2" onchange="changeHscRoute2()">
+                                <option value="yokosuka">横浜横須賀道路</option>
+                                <option value="daisan_yokohane">第三京浜を使用しての横羽線</option>
+                                <option value="kaigan">海岸線</option>
+                                <option value="joban_gaikan">外環</option>
+                                <option value="kanagawa">首都高神奈川線帰り</option>
+                                <option value="omiya_shinshin">首都高大宮線・新都心線帰り</option>
+                            </select>
                         </div>
                     </div>
-
-                    <div id="sub_hsc_k2" style="display:none; flex-direction:column; gap:8px; margin-top:8px;">
-                        <div class="sub-input-item">
-                            <label>使用した高速道路(2回目):</label>
-                            <div class="sub-input-wrapper">
-                                <select id="sel_hsc_route2" onchange="changeHscRoute2()">
-                                    <option value="yokosuka">横浜横須賀道路</option>
-                                    <option value="daisan_yokohane">第三京浜を使用しての横羽線</option>
-                                    <option value="kaigan">海岸線</option>
-                                    <option value="joban_gaikan">外環</option>
-                                    <option value="kanagawa">首都高神奈川線帰り</option>
-                                    <option value="omiya_shinshin">首都高大宮線・新都心線帰り</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="sub-input-item" id="wrap_hsc_sub_amt2" style="display:none;">
-                            <label id="lbl_hsc_sub_amt2">追加金額:</label>
-                            <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_sub_amt2" value="" oninput="calculate()"><span class="unit">円</span></div>
-                        </div>
-                        <div class="sub-input-item">
-                            <label>空車ETC料金(2回目):</label>
-                            <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_total2" value="" oninput="calculate()"><span class="unit">円</span></div>
-                        </div>
-                        <div class="sub-input-item">
-                            <label>会社負担ETC料金(2回目):</label>
-                            <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_kaisha2" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
-                        </div>
-                        <div class="sub-input-item">
-                            <label>ドライバー負担ETC料金(2回目):</label>
-                            <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_dr2" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
-                        </div>
+                    <div class="sub-input-item" id="wrap_hsc_sub_amt2" style="display:none;">
+                        <label id="lbl_hsc_sub_amt2">追加金額:</label>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_sub_amt2" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                    <div class="sub-input-item">
+                        <label>空車ETC料金:</label>
+                        <div class="sub-input-wrapper"><input type="tel" class="calc-input" id="val_hsc_k_total2" value="" oninput="calculate()"><span class="unit">円</span></div>
+                    </div>
+                    <div class="sub-input-item">
+                        <label>会社負担ETC料金:</label>
+                        <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_kaisha2" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
+                    </div>
+                    <div class="sub-input-item">
+                        <label>ドライバー負担ETC料金:</label>
+                        <div class="sub-input-wrapper"><input type="text" id="val_hsc_k_dr2" value="0 円" readonly style="background:#e9ecef; text-align:right; border:none; font-weight:bold;"></div>
                     </div>
                 </div>
             </div>
@@ -513,12 +512,17 @@
         function toggleHscK() {
             let show = document.querySelector('input[name="q_hsc_k"]:checked').value === "1";
             let wrap = document.getElementById('sub_hsc_k');
+            let box2 = document.getElementById('box_hsc_k2');
+
             wrap.style.display = show ? 'flex' : 'none';
+            box2.style.display = show ? 'block' : 'none';
+
             if(!show) {
                 document.getElementById('sel_hsc_route').selectedIndex = 0;
                 document.getElementById('val_hsc_sub_amt').value = '';
                 document.getElementById('val_hsc_k_total').value = '';
                 document.getElementById('wrap_hsc_sub_amt').style.display = 'none';
+                
                 document.querySelector('input[name="q_hsc_k2_exist"][value="0"]').checked = true;
                 toggleHscK2();
             } else {
