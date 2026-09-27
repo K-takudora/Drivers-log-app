@@ -642,7 +642,11 @@
 
             document.getElementById('r_eisho').innerText = formatNumber(eisho);
             document.getElementById('r_cancel').innerText = formatNumber(cancel);
-            document.getElementById('r_sosho').innerText = formatNumber(l_sosho);
+            
+            // ★右側の総営収：左の総営収 ＋ 身障者割引
+            let rightSosho = l_sosho + shinsho;
+            document.getElementById('r_sosho').innerText = formatNumber(rightSosho);
+
             document.getElementById('r_ticket_coupon').innerText = formatNumber(ticketCouponSum);
             document.getElementById('r_cret_ticket').innerText = formatNumber(cretTicket);
             document.getElementById('r_members').innerText = formatNumber(l_members);
@@ -650,8 +654,9 @@
             document.getElementById('r_other').innerText = formatNumber(otherSum);
             document.getElementById('r_shinsho').innerText = formatNumber(shinsho);
 
-            let plusSum = eisho + l_sosho;
-            let minusSum = cancel + ticketCouponSum + cretTicket + l_members + l_credit + otherSum;
+            // ★右側の差引合計：(右側の総営収 + 営業補償) - (各種マイナス項目 + 身障者割引)
+            let plusSum = eisho + rightSosho;
+            let minusSum = cancel + ticketCouponSum + cretTicket + l_members + l_credit + otherSum + shinsho;
             let sashihiki = plusSum - minusSum;
 
             document.getElementById('r_sashihiki').innerText = formatNumber(sashihiki);
